@@ -8,7 +8,6 @@ var stage = new PIXI.Container();
 
 /* Drawing the screen */
 document.body.appendChild(renderer.view);
-document.addEventListener('keydown', onKeyDown); //On key down call function
 
 /* Properties of the ball's position */
 var ballX = width/2; //Starting off the ball's position is going to be the center of the screen.
@@ -16,13 +15,7 @@ var ballY = height/2; //Width with my weird width scale thing.
 
 /* Properties of the ball's direction */
 var ballAngle = (Math.random() * 360) + 1; //Angle of the ball random each time.
-var ballSpeed = 8; //Is one for now.
-
-
-/* Properties of the ball's paddle */
-var paddleX = width/15;
-var paddleY = height/2 - 100/2;
-var paddleSpeed = 40;
+var ballSpeed = 4; //Is one for now.
 
 /* Adding Graphics */
 stage.addChild(graphics); //Add graphics to stage.
@@ -30,19 +23,9 @@ stage.addChild(graphics); //Add graphics to stage.
 /* Animating */
 animate();
 
-function onKeyDown(key) {
-    //Up
-    if (key.keyCode === 87 || key.keyCode === 38) {
-        paddleY -= paddleSpeed;
-    }
-
-    //Down
-    if (key.keyCode === 83 || key.keyCode === 40) {
-        paddleY += paddleSpeed;
-    }
-}
-
 function doPhysics() {
+    console.log(ballAngle);
+
     if (ballY <= 0 || ballY >= height) {
         ballAngle = 360 - ballAngle; //Reflect the ball.
     }
@@ -65,22 +48,12 @@ function drawBall() {
     /* Done drawing the ball */
 }
 
-function drawPaddles() {
-    /* Drawing the paddle */
-    graphics.beginFill(0xffffff); //Begin drawing with white.
-    graphics.drawRect(paddleX, paddleY, 10, 100);
-    graphics.endFill();
-    /* Done drawing the paddle */
-}
-
 
 function animate() {
     graphics.clear(); //Clear scene
 
     doPhysics();
-
     drawBall();
-    drawPaddles();
 
     renderer.render(stage);
     requestAnimationFrame(animate);
