@@ -1,26 +1,54 @@
+var width = 1280;
+var height = 720/1.5;
+
 var app = new PIXI.Application(); //Initialize the app.
-var canvasView = document.getElementById("renderCanvas"); //Find the DIV element for the renderer.
+var renderer = PIXI.autoDetectRenderer(width, height, { backgroundColor: 0x000000, antialias: true });
+var graphics = new PIXI.Graphics(); //Initialize the graphics.
+var stage = new PIXI.Container();
 
-canvasView.append(app.view); //Append the view.
+/* Drawing the screen */
+document.body.appendChild(renderer.view);
 
-//Load a texture.
-PIXI.loader.add('cute', 'Cute.jpg').load(function(loader, resources) {
+/* Properties of the ball's position */
+var ballX = width/2; //Starting off the ball's position is going to be the center of the screen.
+var ballY = height/2; //Width with my weird width scale thing.
 
-  //Create a texture form the image
-  var cute = new PIXI.Sprite(resources.cute.texture); //From the texture named.
+/* Properties of the ball's direction */
+var ballAngle = (Math.random() * 360) + 1; //Angle of the ball random each time.
+var ballSpeed = 4; //Is one for now.
 
-  //Setup the position.
-  cute.x = app.renderer.width / 2;
-  cute.y = app.renderer.height / 2;
+/* Adding Graphics */
+stage.addChild(graphics); //Add graphics to stage.
 
-  // Anchor to the center
-  cute.anchor.x = 0.5;
-  cute.anchor.y = 0.5;
+/* Animating */
+animate();
 
-  app.stage.addChild(cute);
+function doPhysics() {
+    if (ballX <= 0 || ballX >= width || ballY <= 0 || ballY >= height) {
+        ballAngle = 360 - ballAngle; //Reflect the ball.
+    }
 
-  //Add the thing to the stage.
-  app.ticker.add(function() {
-    cute.rotation += 0.01;
-  });
-});
+    /* Change ball position using vector math / unit circle */
+    ballX += (ballSpeed * Math.cos(Math.PI/2 * ballAngle));
+    ballY += (ballSpeed * Math.sin(Math.PI/2 * ballAngle));
+}
+
+function drawBall() {
+    /* Drawing the ball */
+    graphics.beginFill(0xe74c3c); //Begin drawing with color.
+    graphics.drawCircle(ballX, ballY, 10); //Begin drawing the circle.
+    graphics.endFill();
+    /* Done drawing the ball */
+}
+
+
+function animate() {
+    graphics.clear(); //Clear scene
+
+    doPhysics();
+    drawBall();
+
+    renderer.render(stage);
+    requestAnimationFrame(animate);
+}
+/* Done animating */
