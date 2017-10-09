@@ -1,4 +1,4 @@
-var width = 1280;
+var width = 1024;
 var height = 720/1.5;
 
 var app = new PIXI.Application(); //Initialize the app.
