@@ -79,6 +79,9 @@ function handleKeys() {
     }
 }
 
+/**
+ * @desc Handling the physics for the gamestuffs.
+ */
 function doPhysics() {
     if (ballY <= 0 || ballY >= height) {
         ballAngle = 360 - ballAngle; //Reflect the ball.
@@ -94,6 +97,9 @@ function doPhysics() {
     ballY += (ballSpeed * Math.sin(Math.PI/2 * ballAngle));
 }
 
+/**
+ * @desc Draw the ball for the game.
+ */ 
 function drawBall() {
     /* Drawing the ball */
     graphics.beginFill(0xe74c3c); //Begin drawing with color.
@@ -102,6 +108,9 @@ function drawBall() {
     /* Done drawing the ball */
 }
 
+/**
+ *  @desc Draw the paddles for the game.
+ */
 function drawPaddles() {
     /* Drawing the paddle */
     graphics.beginFill(0xffffff); //Begin drawing with white.
@@ -110,7 +119,9 @@ function drawPaddles() {
     /* Done drawing the paddle */
 }
 
-
+/**
+ * @desc Animate everything and this is the basis for our gameloop.
+ */
 function animate() {
     graphics.clear(); //Clear scene
 
@@ -123,4 +134,3 @@ function animate() {
     renderer.render(stage);
     requestAnimationFrame(animate);
 }
-/* Done animating */
