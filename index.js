@@ -1,4 +1,4 @@
-var width = 1024;
+var width = 720;
 var height = 720/1.5;
 
 var app = new PIXI.Application(); //Initialize the app.
@@ -18,8 +18,9 @@ var ballX = width/2; //Starting off the ball's position is going to be the cente
 var ballY = height/2; //Width with my weird width scale thing.
 
 /* Properties of the ball's direction */
-var ballAngle = (Math.random() * 360) + 1; //Angle of the ball random each time.
-var ballSpeed = 8; //Is one for now.
+var ballFlag = (Math.floor(Math.random()) === 0) ? -1 : 1; //Set to negative or positive
+var ballAngle = ((Math.random() * 45) * ballFlag % 360); //Angle of the ball random each time.
+var ballSpeed = 8 * ballFlag; //Is one for now.
 
 /* Properties of the ball's paddle */
 var paddleX = width/15;
@@ -109,7 +110,7 @@ function drawBall() {
 }
 
 /**
- *  @desc Draw the paddles for the game.
+ * @desc Draw the paddles for the game.
  */
 function drawPaddles() {
     /* Drawing the paddle */
@@ -125,12 +126,18 @@ function drawPaddles() {
 function animate() {
     graphics.clear(); //Clear scene
 
+    /* Handle Keyboard Input */
     handleKeys();
+    /* Handle the Physics */
     doPhysics();
 
+    /* Draw the Ball */
     drawBall();
+    
+    /* Draw the Paddle */
     drawPaddles();
 
+    /* Render everything to the screen */
     renderer.render(stage);
     requestAnimationFrame(animate);
 }
