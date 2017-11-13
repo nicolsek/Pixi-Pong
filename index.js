@@ -16,11 +16,15 @@ document.addEventListener('keyup', onKeyUp)
 /* Properties of the ball's position */
 var ballX = width/2; //Starting off the ball's position is going to be the center of the screen.
 var ballY = height/2; //Width with my weird width scale thing.
+var ballSize = 10;
 
 /* Properties of the ball's direction */
 var ballFlag = (Math.floor(Math.random()) === 0) ? -1 : 1; //Set to negative or positive
 var ballAngle = ((Math.random() * 45) * ballFlag % 360); //Angle of the ball random each time.
 var ballSpeed = 8 * ballFlag; //Is one for now.
+
+/* All of this can be replaced with. */
+//var ball = {ballX = width/2, ballY = height/2, etc...}
 
 /* Properties of the ball's paddle */
 var paddleX = width/15;
@@ -64,7 +68,7 @@ function onKeyUp(key) {
     //Down
     if (key.keyCode === 83 || key.keyCode === 40) {
         keys[1] = false;
-    }    
+    }
 }
 
 /**
@@ -100,7 +104,7 @@ function doPhysics() {
 
 /**
  * @desc Draw the ball for the game.
- */ 
+ */
 function drawBall() {
     /* Drawing the ball */
     graphics.beginFill(0xe74c3c); //Begin drawing with color.
@@ -133,7 +137,7 @@ function animate() {
 
     /* Draw the Ball */
     drawBall();
-    
+
     /* Draw the Paddle */
     drawPaddles();
 
